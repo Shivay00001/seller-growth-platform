@@ -1,0 +1,212 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// Enums
+enum Role {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
+enum Marketplace {
+  AMAZON_IN
+  FLIPKART_IN
+  MEESHO_IN
+  ETSY_GLOBAL
+  OTHER
+}
+
+enum PlatformType {
+  INDIAMART
+  ONDC
+  ALIBABA
+  OTHER
+}
+
+enum AdPlatform {
+  AMAZON_ADS
+  META_ADS
+  GOOGLE_ADS
+}
+
+enum SubscriptionTier {
+  FREE
+  PRO
+}
+
+// Models
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  avatarUrl String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  memberships WorkspaceMember[]
+}
+
+model Workspace {
+  id        String   @id @default(uuid())
+  name      String
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  members            WorkspaceMember[]
+  marketplaceAccounts MarketplaceAccount[]
+  products           Product[]
+  suppliers          Supplier[]
+  researchSessions   ResearchSession[]
+  adCampaigns        AdCampaign[]
+  subscription       Subscription?
+}
+
+model WorkspaceMember {
+  id          String   @id @default(uuid())
+  workspaceId String
+  userId      String
+  role        Role     @default(MEMBER)
+  joinedAt    DateTime @default(now())
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([workspaceId, userId])
+}
+
+model MarketplaceAccount {
+  id          String      @id @default(uuid())
+  workspaceId String
+  marketplace Marketplace
+  name        String // e.g. "My Amazon Store"
+  credentials Json // Store API keys/tokens securely (encrypted ideally, but plain JSON for this demo)
+  isConnected Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  workspaceId String
+  title       String
+  description String?
+  sku         String?
+  baseCost    Float?
+  currency    String   @default("USD")
+  category    String?
+  images      String[] // Array of image URLs
+  tags        String[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  workspace Workspace        @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  listings  ProductListing[]
+  competitorListings CompetitorListing[]
+}
+
+model ProductListing {
+  id                   String      @id @default(uuid())
+  productId            String
+  marketplace          Marketplace
+  externalListingId    String? // ID on the marketplace
+  status               String      @default("DRAFT") // DRAFT, ACTIVE, INACTIVE, ERROR
+  price                Float?
+  stock                Int         @default(0)
+  lastSyncAt           DateTime?
+  syncMessage          String?
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, marketplace])
+}
+
+model Supplier {
+  id           String       @id @default(uuid())
+  workspaceId  String
+  name         String
+  platformType PlatformType
+  contactInfo  Json?
+  products     String? // Description of products offered
+  isFavorite   Boolean      @default(false)
+  createdAt    DateTime     @default(now())
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+}
+
+model ResearchSession {
+  id               String   @id @default(uuid())
+  workspaceId      String
+  keyword          String
+  marketplaces     Marketplace[]
+  status           String   @default("COMPLETED")
+  avgPrice         Float?
+  minPrice         Float?
+  maxPrice         Float?
+  competitionScore Float? // 0-100
+  demandScore      Float? // 0-100
+  recommendedPrice Float?
+  createdAt        DateTime @default(now())
+
+  workspace Workspace           @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  results   CompetitorListing[]
+}
+
+model CompetitorListing {
+  id                String   @id @default(uuid())
+  researchSessionId String?
+  productId         String? // If tracking for a specific product
+  title             String
+  price             Float
+  currency          String   @default("USD")
+  url               String?
+  imageUrl          String?
+  rating            Float?
+  reviewCount       Int?
+  marketplace       Marketplace
+  createdAt         DateTime @default(now())
+
+  researchSession ResearchSession? @relation(fields: [researchSessionId], references: [id], onDelete: Cascade)
+  product         Product?         @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model AdCampaign {
+  id              String     @id @default(uuid())
+  workspaceId     String
+  name            String
+  platform        AdPlatform
+  targetProductId String?
+  budgetDaily     Float
+  currency        String     @default("USD")
+  status          String     @default("PAUSED") // ACTIVE, PAUSED, ARCHIVED
+  targetingParams Json? // Keywords, demographics, etc.
+  externalId      String?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+}
+
+model Subscription {
+  id               String           @id @default(uuid())
+  workspaceId      String           @unique
+  stripeCustomerId String?
+  stripeSubscriptionId String?
+  tier             SubscriptionTier @default(FREE)
+  status           String           @default("active")
+  currentPeriodEnd DateTime?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+}
