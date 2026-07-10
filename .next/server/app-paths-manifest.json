@@ -1,5 +1,19 @@
 {
-  "/not-found": "app/not-found.js",
+  "/_not-found": "app/_not-found.js",
+  "/api/webhooks/stripe/route": "app/api/webhooks/stripe/route.js",
   "/(auth)/login/page": "app/(auth)/login/page.js",
-  "/page": "app/page.js"
+  "/page": "app/page.js",
+  "/app/page": "app/app/page.js",
+  "/app/[workspaceId]/ads/new/page": "app/app/[workspaceId]/ads/new/page.js",
+  "/app/[workspaceId]/ads/page": "app/app/[workspaceId]/ads/page.js",
+  "/app/[workspaceId]/products/new/page": "app/app/[workspaceId]/products/new/page.js",
+  "/app/[workspaceId]/products/[productId]/page": "app/app/[workspaceId]/products/[productId]/page.js",
+  "/app/[workspaceId]/dashboard/page": "app/app/[workspaceId]/dashboard/page.js",
+  "/app/[workspaceId]/billing/page": "app/app/[workspaceId]/billing/page.js",
+  "/app/[workspaceId]/competitors/page": "app/app/[workspaceId]/competitors/page.js",
+  "/app/[workspaceId]/products/page": "app/app/[workspaceId]/products/page.js",
+  "/app/[workspaceId]/profit-calculator/page": "app/app/[workspaceId]/profit-calculator/page.js",
+  "/app/[workspaceId]/research/page": "app/app/[workspaceId]/research/page.js",
+  "/app/[workspaceId]/settings/page": "app/app/[workspaceId]/settings/page.js",
+  "/app/[workspaceId]/suppliers/page": "app/app/[workspaceId]/suppliers/page.js"
 }

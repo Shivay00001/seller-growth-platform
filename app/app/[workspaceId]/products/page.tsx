@@ -39,12 +39,12 @@ export default async function ProductsPage({ params }: { params: { workspaceId: 
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {products.map((product) => (
+                            {products.map((product: any) => (
                                 <TableRow key={product.id}>
                                     <TableCell className="font-medium">{product.title}</TableCell>
                                     <TableCell>{product.sku || '-'}</TableCell>
                                     <TableCell>{product.currency} {product.baseCost}</TableCell>
-                                    <TableCell>{product.listings.filter(l => l.status === 'ACTIVE').length}</TableCell>
+                                    <TableCell>{product.listings.filter((l: any) => l.status === 'ACTIVE').length}</TableCell>
                                     <TableCell>
                                         <Link href={`/app/${params.workspaceId}/products/${product.id}`}>
                                             <Button variant="outline" size="sm">View</Button>

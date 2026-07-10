@@ -25,7 +25,7 @@ export default async function AppRoot() {
             <h1 className="text-3xl font-bold mb-8">Your Workspaces</h1>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {memberships.map((membership) => (
+                {memberships.map((membership: any) => (
                     <Link key={membership.workspaceId} href={`/app/${membership.workspaceId}/dashboard`}>
                         <Card className="hover:bg-gray-50 transition-colors cursor-pointer h-full">
                             <CardHeader>

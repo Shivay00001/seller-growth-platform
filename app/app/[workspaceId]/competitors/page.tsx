@@ -31,7 +31,7 @@ export default async function CompetitorsPage({ params }: { params: { workspaceI
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {competitors.map((comp) => (
+                            {competitors.map((comp: any) => (
                                 <TableRow key={comp.id}>
                                     <TableCell className="font-medium">{comp.title}</TableCell>
                                     <TableCell>{comp.currency} {comp.price.toFixed(2)}</TableCell>

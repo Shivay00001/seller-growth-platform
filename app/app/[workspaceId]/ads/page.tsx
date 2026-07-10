@@ -54,7 +54,7 @@ export default async function AdsPage({ params }: { params: { workspaceId: strin
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {campaigns.map((campaign) => (
+                            {campaigns.map((campaign: any) => (
                                 <TableRow key={campaign.id}>
                                     <TableCell className="font-medium">{campaign.name}</TableCell>
                                     <TableCell>{campaign.platform}</TableCell>

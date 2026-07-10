@@ -1,4 +1,4 @@
-// File: C:\Users\shiva\.gemini\antigravity\scratch\seller-growth-platform\app\layout.tsx
+// File: C:\git completion\seller-growth-platform\app\layout.tsx
 import * as entry from '../../../app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

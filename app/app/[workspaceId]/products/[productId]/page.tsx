@@ -48,7 +48,7 @@ export default async function ProductDetailPage({ params }: { params: { workspac
                     </CardHeader>
                     <CardContent>
                         <div className="space-y-4">
-                            {product.listings.map((listing) => (
+                            {product.listings.map((listing: any) => (
                                 <div key={listing.id} className="flex justify-between items-center border p-3 rounded-md">
                                     <div>
                                         <div className="font-semibold">{listing.marketplace}</div>
