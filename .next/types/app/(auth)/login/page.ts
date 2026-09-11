@@ -1,4 +1,4 @@
-// File: C:\git completion\seller-growth-platform\app\(auth)\login\page.tsx
+// File: C:\Users\shiva\.gemini\antigravity-ide\scratch\temp_seller-growth-platform_1ca9cf10\app\(auth)\login\page.tsx
 import * as entry from '../../../../../app/(auth)/login/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

@@ -1,4 +1,4 @@
-// File: C:\git completion\seller-growth-platform\app\api\webhooks\stripe\route.ts
+// File: C:\Users\shiva\.gemini\antigravity-ide\scratch\temp_seller-growth-platform_1ca9cf10\app\api\webhooks\stripe\route.ts
 import * as entry from '../../../../../../app/api/webhooks/stripe/route.js'
 import type { NextRequest } from 'next/server.js'
 
