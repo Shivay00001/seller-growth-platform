@@ -24,3 +24,5 @@ build/
 *.spec
 *.db
 *.sqlite3
+
+.next/
